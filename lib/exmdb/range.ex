@@ -73,7 +73,9 @@ defmodule Exmdb.Range do
     {:ok, range}
   end
 
-  def cursor_open(%Range{src: %Txn{res: txn_res, type: txn_type}, db_spec: db_spec}) do
+  def cursor_open(%Range{src: %Txn{res: txn_res, type: txn_type}, db_spec: db_spec} = r) do
+    IO.inspect(r, label: "EXMDB cursor_open")
+
     {dbi, _key_type, _val_type} = db_spec
     case txn_type do
       :ro -> :elmdb.ro_txn_cursor_open(txn_res, dbi)
