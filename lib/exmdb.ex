@@ -63,6 +63,29 @@ defmodule Exmdb do
     end
   end
 
+  def begin_transaction(%Env{res: res} = env, opts \\ []) do
+    timeout = timeout(opts)
+    txn_type = Keyword.get(opts, :type, :rw)
+
+    case txn_begin(res, timeout, txn_type) do
+      {:ok, txn_res} ->
+        %Txn{res: txn_res, env: env, type: txn_type}
+ 
+      {:error, e} ->
+        mdb_error(e)
+    end
+  end
+
+  def commit_transaction(%Txn{res: txn_res, type: txn_type}, opts \\ []) do
+    timeout = timeout(opts)
+    txn_commit(txn_res, timeout, txn_type)
+  end
+
+  def abort_transaction(%Txn{res: txn_res, type: txn_type}, opts \\ []) do
+    timeout = timeout(opts)
+    txn_abort(txn_res, timeout, txn_type)
+  end
+
   @spec transaction(Env.t, (Txn.t -> any)) :: {:ok, any} | :aborted
   def transaction(%Env{res: res} = env, fun, opts \\ []) do
     timeout = timeout(opts)
