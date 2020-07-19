@@ -103,6 +103,8 @@ defmodule Exmdb.Range do
   def cursor_get(cur, op, :ro), do: :elmdb.ro_txn_cursor_get(cur, op)
   def cursor_get(cur, op, :rw), do: :elmdb.txn_cursor_get(cur, op)
 
+  def cursor_delete(cur, op, :rw), do: :elmdb.txn_cursor_delete(cur, op)
+
   def binkey_in_range?(binkey, :next, to), do: to == :last or binkey <= to
   def binkey_in_range?(binkey, :prev, to), do: to == :first or binkey >= to
 end
