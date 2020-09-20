@@ -17,6 +17,6 @@ defmodule Exmdb.Mixfile do
 
   defp deps do
     #[{:elmdb, git: "https://github.com/coderdan/elmdb.git"}]
-    [{:elmdb, path: "/Users/daniel/Projects/Open/elmdb"}]
+    [{:elmdb, github: "coderdan/elmdb"}]
   end
 end
